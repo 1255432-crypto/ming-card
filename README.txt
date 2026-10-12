@@ -1,0 +1,1 @@
+Ming 交友名片 V4：將 index.html、portrait.jpg、line-qr.png、youtube-qr.png、ming.vcf 一起上傳到 GitHub 倉庫根目錄，舊 line-qr.png 和 youtube-qr.jpg 可刪除。注意：YouTube 按鈕目前使用 @bonskaz 網址。ming.vcf 內的網站網址預設為 /ming-card/，若儲存庫不同需修改。

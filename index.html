@@ -38,7 +38,7 @@ a{color:inherit;text-decoration:none}
 .tools{display:flex;gap:10px;margin-top:16px}.tool{flex:1;border:1px solid #ffffff12;border-radius:13px;background:rgba(255,255,255,.02);color:#ece2d2;padding:13px 6px;font-size:12px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}.tool:active{background:rgba(255,255,255,.06)}
 .footer{padding-top:22px;color:#7f715f;font-size:11px;letter-spacing:.17em;text-align:center}.footer em{font-family:Georgia,serif;font-size:17px;font-weight:400;color:var(--gold);letter-spacing:.04em}
 .modal{position:fixed;inset:0;background:#000b;z-index:50;display:none;align-items:center;justify-content:center;padding:22px}.modal.open{display:flex}.dialog{width:min(100%,410px);background:#fff;color:#222;border-radius:18px;padding:20px;text-align:center}.dialog img{display:block;width:100%;max-height:60svh;object-fit:contain;border-radius:6px}.dialog button{border:0;background:#222;color:white;padding:12px 24px;border-radius:10px;margin-top:12px}
-.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#f0e2ca;color:#212121;padding:12px 20px;border-radius:100px;font-size:12px;display:none;white-space:nowrap;z-index:90}.toast.show{display:block}
+.qr-dialog{background:#f9f7f3;padding:24px 20px 20px;border-radius:22px;box-shadow:0 18px 70px #0008}.qr-dialog h2{font-size:20px;margin:0 0 5px}.qr-help{font-size:12px;color:#777;margin:0 0 17px}.qr-tabs{display:flex;gap:8px;margin:0 0 15px}.qr-tab{flex:1;background:#eeeae2;color:#292827;border:1px solid #ddd7cb;border-radius:10px;padding:12px 4px;font-size:13px}.qr-tab.active{color:#fff;background:#151515;border-color:#151515}.qr-dialog #qr-image{width:min(100%,285px);margin:0 auto;image-rendering:auto;max-height:none;border:10px solid white;background:white;border-radius:8px;aspect-ratio:1;object-fit:contain}.qr-caption{font-size:13px;font-weight:600;margin:6px 0 12px}.qr-actions{display:flex;gap:10px}.qr-actions>*{flex:1;margin:0!important;display:grid;place-items:center;text-decoration:none;background:#202020;color:#fff;border-radius:10px;padding:12px;font-size:14px}.qr-actions #close{background:#e6e1d8;color:#262626}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#f0e2ca;color:#212121;padding:12px 20px;border-radius:100px;font-size:12px;display:none;white-space:nowrap;z-index:90}.toast.show{display:block}
 @media(min-width:650px){body{padding:32px 0}.shell{border-radius:24px;min-height:900px;box-shadow:0 18px 80px #0008}.hero{height:720px}.hero-mark{bottom:310px}.content{margin-top:-285px}}
 </style>
 </head>
@@ -49,15 +49,24 @@ a{color:inherit;text-decoration:none}
   <div class="links"><a class="social" href="https://line.me/ti/p/vgc4C_FVZv" target="_blank" rel="noopener noreferrer" aria-label="開啟 LINE 加好友"><span class="logo line">LINE</span><span class="social-copy"><span class="social-title">LINE 加好友</span><span class="social-note">點一下，直接打開 LINE</span></span><span class="chev">›</span></a>
   <a class="social" href="https://www.youtube.com/@bonskaz" target="_blank" rel="noopener noreferrer" aria-label="開啟 YouTube 頻道"><span class="logo youtube">▶</span><span class="social-copy"><span class="social-title">YouTube 頻道</span><span class="social-note">我自己動手製作的 YouTube 頻道</span></span><span class="chev">›</span></a></div>
   <div class="tools"><button class="tool" type="button" id="share">↗　分享名片</button><button class="tool" type="button" id="copy">▣　複製網址</button><button class="tool" type="button" id="qr">▦　顯示 QR</button></div>
-  <div class="footer"><em>Make a connection.</em><br><br>PERSONAL SOCIAL CARD</div>
+  <div class="tools" style="margin-top:10px"><a class="tool" href="ming.vcf" style="text-align:center">＋　儲存 Ming 聯絡人</a></div><div class="footer"><em>Make a connection.</em><br><br>PERSONAL SOCIAL CARD</div>
  </section>
 </main>
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="LINE 加好友 QR Code"><div class="dialog"><strong>LINE 加好友 QR Code</strong><img src="line-qr.png" alt="LINE 加好友 QR Code"><button id="close" type="button">關閉</button></div></div><div class="toast" id="toast" role="status"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="選擇社群 QR Code">
+ <div class="dialog qr-dialog"><h2>我的社群 QR Code</h2><p class="qr-help">選擇要分享的社群，讓朋友直接掃描</p>
+ <div class="qr-tabs" role="group" aria-label="選擇 QR Code"><button type="button" class="qr-tab active" data-qr="line" aria-pressed="true">LINE 加好友</button><button type="button" class="qr-tab" data-qr="youtube" aria-pressed="false">YouTube 頻道</button></div>
+ <img id="qr-image" src="line-qr.png" alt="LINE 加好友 QR Code"><p id="qr-name" class="qr-caption">LINE 加好友</p>
+ <div class="qr-actions"><a id="qr-go" href="https://line.me/ti/p/vgc4C_FVZv" target="_blank" rel="noopener noreferrer">直接開啟</a><button id="close" type="button">關閉</button></div>
+ </div></div><div class="toast" id="toast" role="status"></div>
 <script>
 const toast=document.getElementById('toast');function notice(s){toast.textContent=s;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2500)}
 const link=()=>location.protocol==='file:'?'':location.href;
 document.getElementById('share').addEventListener('click',async()=>{if(location.protocol==='file:'){notice('請部署到 GitHub Pages 後分享');return}if(navigator.share){try{await navigator.share({title:'Ming 的個人交友名片',text:'很高興認識你！',url:link()})}catch(e){if(e.name!=='AbortError')notice('無法分享，請改用複製網址')}}else{try{await navigator.clipboard.writeText(link());notice('已複製名片網址')}catch(e){notice('請使用瀏覽器分享功能')}}});
 document.getElementById('copy').addEventListener('click',async()=>{if(!link()){notice('部署後才會有公開網址');return}try{await navigator.clipboard.writeText(link());notice('名片網址已複製')}catch(e){notice('請從網址列複製網址')}});
-const modal=document.getElementById('modal');document.getElementById('qr').onclick=()=>modal.classList.add('open');document.getElementById('close').onclick=()=>modal.classList.remove('open');modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
+const modal=document.getElementById('modal');
+const qrImage=document.getElementById('qr-image'),qrName=document.getElementById('qr-name'),qrGo=document.getElementById('qr-go');
+const qrData={line:{src:'line-qr.png',name:'LINE 加好友',url:'https://line.me/ti/p/vgc4C_FVZv'},youtube:{src:'youtube-qr.png',name:'YouTube 頻道',url:'https://www.youtube.com/@bonskaz'}};
+document.querySelectorAll('.qr-tab').forEach(btn=>btn.addEventListener('click',()=>{const key=btn.dataset.qr,item=qrData[key];qrImage.src=item.src;qrImage.alt=item.name+' QR Code';qrName.textContent=item.name;qrGo.href=item.url;document.querySelectorAll('.qr-tab').forEach(tab=>{const current=tab===btn;tab.classList.toggle('active',current);tab.setAttribute('aria-pressed',String(current))});}));
+document.getElementById('qr').onclick=()=>modal.classList.add('open');document.getElementById('close').onclick=()=>modal.classList.remove('open');modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
 </script>
 </body></html>
